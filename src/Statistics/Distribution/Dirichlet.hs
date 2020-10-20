@@ -32,6 +32,7 @@ data DirichletDistribution = DirichletDistribution
     _getNormConst :: Log Double,
     _getDimension :: Int
   }
+  deriving (Eq, Show)
 
 -- Check if vector is strictly positive.
 isNegativeOrZero :: V.Vector Double -> Bool
@@ -47,12 +48,12 @@ invBeta v = Exp $ logDenominator - logNominator
 -- | Create a Dirichlet distribution from the given parameter vector.
 --
 -- Return Left if:
--- - The parameter vector is empty.
+-- - The parameter vector has less then two elements.
 -- - One or more parameters are negative or zero.
 dirichletDistribution :: V.Vector Double -> Either String DirichletDistribution
 dirichletDistribution v
-  | V.null v =
-    Left "dirichletDistribution: Parameter vector is empty."
+  | V.length v < 2 =
+    Left "dirichletDistribution: Parameter vector is too short."
   | isNegativeOrZero v =
     Left "dirichletDistribution: One or more parameters are negative or zero."
   | otherwise = Right $ DirichletDistribution v (invBeta v) (V.length v)
@@ -67,22 +68,16 @@ isNormalized v
   | abs (V.sum v - 1.0) > eps = False
   | otherwise = True
 
--- Check if vector has negative elements.
-isNegative :: V.Vector Double -> Bool
-isNegative = V.any (< 0)
-
 -- | Density of the Dirichlet distribution evaluated at a given value vector.
 --
 -- Return 0 if:
 -- - The value vector has a different length than the parameter vector.
--- - The value vector is empty.
--- - The value vector has negative elements.
+-- - The value vector has elements being negative or zero.
 -- - The value vector does not sum to 1.0 (with tolerance @eps = 1e-14@).
 dirichletDensity :: DirichletDistribution -> V.Vector Double -> Log Double
 dirichletDensity (DirichletDistribution as n k) xs
   | k /= V.length xs = 0
-  | V.null xs = 0
-  | isNegative xs = 0
+  | isNegativeOrZero xs = 0
   | not (isNormalized xs) = 0
   | otherwise = n * Exp logXsPow
   where
