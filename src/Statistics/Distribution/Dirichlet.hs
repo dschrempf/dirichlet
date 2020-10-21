@@ -140,7 +140,11 @@ dirichletDensitySymmetric (DirichletDistributionSymmetric a k c) xs
     logXsPow = V.sum $ V.map (\x -> log $ x ** (a - 1.0)) xs
 
 -- | Sample a value vector from the symmetric Dirichlet distribution.
-dirichletSampleSymmetric :: PrimMonad m => DirichletDistributionSymmetric -> Gen (PrimState m) -> m (V.Vector Double)
+dirichletSampleSymmetric ::
+  PrimMonad m =>
+  DirichletDistributionSymmetric ->
+  Gen (PrimState m) ->
+  m (V.Vector Double)
 dirichletSampleSymmetric (DirichletDistributionSymmetric a k _) g = do
   ys <- V.replicateM k (gamma a 1.0 g)
   let s = V.sum ys

@@ -3,7 +3,7 @@ cabal-version:       2.4
 name:                dirichlet
 version:             0.1.0.0
 synopsis:            Multivariate dirichlet distribution
--- description:
+description:         Please see the README on GitHub at <https://github.com/dschrempf/dirichlet#readme>
 homepage:            https://github.com/dschrempf/dirichlet
 bug-reports:
 license:             BSD-3-Clause
