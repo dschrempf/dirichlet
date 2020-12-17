@@ -73,8 +73,8 @@ spec = do
       map V.length xs `shouldBe` replicate 1000 10
       -- print [ xbar i xs | i <- [0..9]]
       [ abs (xbar i xs - 0.1) > 0.01 | i <- [0..9]] `shouldBe` replicate 10 False
-      xs <- replicateM 1000 (dirichletSample dd10 g)
-      map V.length xs `shouldBe` replicate 1000 10
+      xs' <- replicateM 1000 (dirichletSample dd10 g)
+      map V.length xs' `shouldBe` replicate 1000 10
       -- print [ xbar i xs | i <- [0..9]]
       let aSum = V.sum alphas10
-      [ abs (xbar i xs - (alphas10 V.! i / aSum)) > 0.01 | i <- [0..9]] `shouldBe` replicate 10 False
+      [ abs (xbar i xs' - (alphas10 V.! i / aSum)) > 0.01 | i <- [0..9]] `shouldBe` replicate 10 False

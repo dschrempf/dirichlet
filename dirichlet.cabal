@@ -41,7 +41,6 @@ test-suite dirichlet-test
   build-depends:       base
                      , dirichlet
                      , hspec
-                     , hspec-discover
                      , log-domain
                      , mwc-random
                      , vector
