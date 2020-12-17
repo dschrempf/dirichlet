@@ -21,6 +21,7 @@ library
   exposed-modules:     Statistics.Distribution.Dirichlet
   -- other-modules:
   -- other-extensions:
+  ghc-options:       -Wall -Wunused-packages
   build-depends:       base
                      , log-domain
                      , math-functions
@@ -36,6 +37,7 @@ test-suite dirichlet-test
   hs-source-dirs:      test
   main-is:             Spec.hs
   other-modules:       Statistics.Distribution.DirichletSpec
+  ghc-options:       -Wall -Wunused-packages
   build-depends:       base
                      , dirichlet
                      , hspec
