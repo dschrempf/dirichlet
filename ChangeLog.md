@@ -5,6 +5,11 @@
 ## Unreleased changes
 
 
+## 0.1.0.2
+
+-   Bugfix cabal file.
+
+
 ## 0.1.0.1
 
 -   Cabal changes.
