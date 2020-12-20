@@ -31,7 +31,7 @@ import Numeric.SpecFunctions
 import System.Random.MWC
 import System.Random.MWC.Distributions
 
--- | The Dirichlet distribution is identified by a vector of parameter values.
+-- | The [Dirichlet distribution](https://en.wikipedia.org/wiki/Dirichlet_distribution).
 data DirichletDistribution = DirichletDistribution
   { ddGetParameters :: V.Vector Double,
     _getDimension :: Int,
@@ -53,7 +53,9 @@ invBeta v = Exp $ logDenominator - logNominator
 -- | Create a Dirichlet distribution from the given parameter vector.
 --
 -- Return Left if:
+--
 -- - The parameter vector has less then two elements.
+--
 -- - One or more parameters are negative or zero.
 dirichletDistribution :: V.Vector Double -> Either String DirichletDistribution
 dirichletDistribution v
@@ -76,8 +78,11 @@ isNormalized v
 -- | Density of the Dirichlet distribution evaluated at a given value vector.
 --
 -- Return 0 if:
+--
 -- - The value vector has a different length than the parameter vector.
+--
 -- - The value vector has elements being negative or zero.
+--
 -- - The value vector does not sum to 1.0 (with tolerance @eps = 1e-14@).
 dirichletDensity :: DirichletDistribution -> V.Vector Double -> Log Double
 dirichletDensity (DirichletDistribution as k c) xs
@@ -95,7 +100,7 @@ dirichletSample (DirichletDistribution as _ _) g = do
   let s = V.sum ys
   return $ V.map (/ s) ys
 
--- | The Dirichlet distribution is identified by a vector of parameter values.
+-- | See 'DirichletDistribution' but with parameter vector @replicate DIM VAL@.
 data DirichletDistributionSymmetric = DirichletDistributionSymmetric
   { ddSymGetParameter :: Double,
     _symGetDimension :: Int,
@@ -113,7 +118,9 @@ invBetaSym k a = Exp $ logDenominator - logNominator
 -- | Create a symmetric Dirichlet distribution of given dimension and parameter.
 --
 -- Return Left if:
+--
 -- - The given dimension is smaller than two.
+--
 -- - The parameter is negative or zero.
 dirichletDistributionSymmetric :: Int -> Double -> Either String DirichletDistributionSymmetric
 dirichletDistributionSymmetric k a
@@ -127,8 +134,11 @@ dirichletDistributionSymmetric k a
 -- vector.
 --
 -- Return 0 if:
+--
 -- - The value vector has a different dimension.
+--
 -- - The value vector has elements being negative or zero.
+--
 -- - The value vector does not sum to 1.0 (with tolerance @eps = 1e-14@).
 dirichletDensitySymmetric :: DirichletDistributionSymmetric -> V.Vector Double -> Log Double
 dirichletDensitySymmetric (DirichletDistributionSymmetric a k c) xs
