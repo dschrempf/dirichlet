@@ -1,6 +1,6 @@
 cabal-version:       2.4
 name:                dirichlet
-version:             0.1.0.3
+version:             0.1.0.4
 synopsis:            Multivariate Dirichlet distribution
 description:         Please see the README on GitHub at <https://github.com/dschrempf/dirichlet#readme>
 homepage:            https://github.com/dschrempf/dirichlet
@@ -22,7 +22,7 @@ library
   -- other-modules:
   -- other-extensions:
   ghc-options:       -Wall -Wunused-packages
-  build-depends:       base
+  build-depends:       base < 5
                      , log-domain
                      , math-functions
                      , mwc-random
@@ -38,7 +38,7 @@ test-suite dirichlet-test
   main-is:             Spec.hs
   other-modules:       Statistics.Distribution.DirichletSpec
   ghc-options:       -Wall -Wunused-packages
-  build-depends:       base
+  build-depends:       base < 5
                      , dirichlet
                      , hspec
                      , log-domain
