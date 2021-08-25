@@ -1,5 +1,5 @@
 {
-  description = "Circular stacks";
+  description = "Multivariate Dirichlet distribution";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
@@ -12,20 +12,15 @@
           pkgs = nixpkgs.legacyPackages.${system};
           haskellPackages = pkgs.haskellPackages;
           packageName = "dirichlet";
+          pkg = self.packages.${system}.${packageName};
         in
           {
             packages.${packageName} = haskellPackages.callCabal2nix
               packageName self rec {};
 
-            defaultPackage = self.packages.${system}.${packageName};
+            defaultPackage = pkg;
 
-            devShell = pkgs.mkShell {
-              buildInputs = with haskellPackages; [
-                haskell-language-server
-                stack
-              ];
-              inputsFrom = builtins.attrValues self.packages.${system};
-            };
+            devShell = (pkgs.haskell.lib.doBenchmark pkg).env;
           }
     );
 }

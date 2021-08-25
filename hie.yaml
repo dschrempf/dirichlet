@@ -1,7 +1,7 @@
 cradle:
-  stack:
-    - path: "./src"
-      component: "dirichlet:lib"
+  cabal:
+    - path: "src"
+      component: "lib:dirichlet"
 
-    - path: "./test"
+    - path: "test"
       component: "dirichlet:test:dirichlet-test"
