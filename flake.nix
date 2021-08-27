@@ -11,16 +11,22 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           haskellPackages = pkgs.haskellPackages;
-          packageName = "dirichlet";
-          pkg = self.packages.${system}.${packageName};
+          dirichlet = haskellPackages.callCabal2nix "dirichlet" self rec {};
+          dirichlet-dev = pkgs.haskell.lib.doBenchmark dirichlet;
         in
           {
-            packages.${packageName} = haskellPackages.callCabal2nix
-              packageName self rec {};
+            packages.circular = dirichlet;
 
-            defaultPackage = pkg;
+            defaultPackage = dirichlet;
 
-            devShell = (pkgs.haskell.lib.doBenchmark pkg).env;
+            devShell = pkgs.haskellPackages.shellFor {
+              packages = _: [ dirichlet-dev ];
+              buildInputs = with pkgs; [
+                haskellPackages.cabal-install
+                haskellPackages.haskell-language-server
+              ];
+              doBenchmark = true;
+            };
           }
     );
 }
