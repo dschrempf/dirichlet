@@ -5,6 +5,11 @@
 ## Unreleased changes
 
 
+## 0.1.0.5
+
+-   Minor changes; tooling; Nix support.
+
+
 ## 0.1.0.2
 
 -   Bugfix cabal file.
