@@ -14,8 +14,8 @@
         system:
           let
             pkgs = nixpkgs.legacyPackages.${system};
-            haskellPackages = pkgs.haskellPackages;
-            dirichlet = haskellPackages.callCabal2nix "dirichlet" self rec {};
+            hpkgs = pkgs.haskellPackages;
+            dirichlet = hpkgs.callCabal2nix "dirichlet" self rec {};
             dirichlet-dev = pkgs.haskell.lib.doBenchmark dirichlet;
           in
             {
@@ -23,13 +23,13 @@
 
               defaultPackage = dirichlet;
 
-              devShell = pkgs.haskellPackages.shellFor {
+              devShell = hpkgs.shellFor {
                 packages = _: [ dirichlet-dev ];
                 buildInputs = with pkgs; [
                   bashInteractive
-                  haskellPackages.cabal-install
-                  haskellPackages.haskell-language-server
-                  haskellPackages.stack
+                  hpkgs.cabal-install
+                  hpkgs.haskell-language-server
+                  hpkgs.stack
                 ];
                 doBenchmark = true;
                 withHoogle = true;
