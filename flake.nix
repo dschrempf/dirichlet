@@ -10,30 +10,29 @@
     , flake-utils
     , nixpkgs
     }:
-      flake-utils.lib.eachDefaultSystem (
-        system:
-          let
-            pkgs = nixpkgs.legacyPackages.${system};
-            hpkgs = pkgs.haskellPackages;
-            dirichlet = hpkgs.callCabal2nix "dirichlet" self rec {};
-            dirichlet-dev = pkgs.haskell.lib.doBenchmark dirichlet;
-          in
-            {
-              packages.circular = dirichlet;
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        hpkgs = pkgs.haskellPackages;
+        dirichlet = hpkgs.callCabal2nix "dirichlet" self rec { };
+        dirichlet-dev = pkgs.haskell.lib.doBenchmark dirichlet;
+      in
+      {
+        packages.circular = dirichlet;
 
-              defaultPackage = dirichlet;
+        defaultPackage = dirichlet;
 
-              devShell = hpkgs.shellFor {
-                packages = _: [ dirichlet-dev ];
-                buildInputs = with pkgs; [
-                  bashInteractive
-                  hpkgs.cabal-install
-                  hpkgs.haskell-language-server
-                  hpkgs.stack
-                ];
-                doBenchmark = true;
-                withHoogle = true;
-              };
-            }
-      );
+        devShell = hpkgs.shellFor {
+          packages = _: [ dirichlet-dev ];
+          buildInputs = with pkgs; [
+            bashInteractive
+            hpkgs.cabal-install
+            hpkgs.haskell-language-server
+          ];
+          doBenchmark = true;
+          withHoogle = true;
+        };
+      }
+    );
 }
