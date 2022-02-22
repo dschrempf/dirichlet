@@ -60,9 +60,9 @@ invBeta v = Exp $ logDenominator - logNominator
 dirichletDistribution :: V.Vector Double -> Either String DirichletDistribution
 dirichletDistribution v
   | V.length v < 2 =
-    Left "dirichletDistribution: Parameter vector is too short."
+      Left "dirichletDistribution: Parameter vector is too short."
   | isNegativeOrZero v =
-    Left "dirichletDistribution: One or more parameters are negative or zero."
+      Left "dirichletDistribution: One or more parameters are negative or zero."
   | otherwise = Right $ DirichletDistribution v (V.length v) (invBeta v)
 
 -- Tolerance.
@@ -125,9 +125,9 @@ invBetaSym k a = Exp $ logDenominator - logNominator
 dirichletDistributionSymmetric :: Int -> Double -> Either String DirichletDistributionSymmetric
 dirichletDistributionSymmetric k a
   | k < 2 =
-    Left "dirichletDistributionSymmetric: The dimension is smaller than two."
+      Left "dirichletDistributionSymmetric: The dimension is smaller than two."
   | a <= 0 =
-    Left "dirichletDistributionSymmetric: The parameter is negative or zero."
+      Left "dirichletDistributionSymmetric: The parameter is negative or zero."
   | otherwise = Right $ DirichletDistributionSymmetric a k (invBetaSym k a)
 
 -- | Density of the symmetric Dirichlet distribution evaluated at a given value

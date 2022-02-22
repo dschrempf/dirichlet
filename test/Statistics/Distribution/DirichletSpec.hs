@@ -19,8 +19,8 @@ import Data.Either
 import qualified Data.Vector.Unboxed as V
 import Numeric.Log hiding (sum)
 import Statistics.Distribution.Dirichlet
-import Test.Hspec
 import System.Random.MWC
+import Test.Hspec
 
 eps :: Double
 eps = 1e-14
@@ -40,7 +40,8 @@ ddSym n a = either error id $ dirichletDistribution $ V.replicate n a
 -- Extract means.
 xbar :: Int -> [V.Vector Double] -> Double
 xbar n xss = sum xs / fromIntegral (length xs)
-  where xs = map (V.! n) xss
+  where
+    xs = map (V.! n) xss
 
 spec :: Spec
 spec = do
@@ -72,9 +73,9 @@ spec = do
       xs <- replicateM 1000 (dirichletSample ddSym10 g)
       map V.length xs `shouldBe` replicate 1000 10
       -- print [ xbar i xs | i <- [0..9]]
-      [ abs (xbar i xs - 0.1) > 0.01 | i <- [0..9]] `shouldBe` replicate 10 False
+      [abs (xbar i xs - 0.1) > 0.01 | i <- [0 .. 9]] `shouldBe` replicate 10 False
       xs' <- replicateM 1000 (dirichletSample dd10 g)
       map V.length xs' `shouldBe` replicate 1000 10
       -- print [ xbar i xs | i <- [0..9]]
       let aSum = V.sum alphas10
-      [ abs (xbar i xs' - (alphas10 V.! i / aSum)) > 0.01 | i <- [0..9]] `shouldBe` replicate 10 False
+      [abs (xbar i xs' - (alphas10 V.! i / aSum)) > 0.01 | i <- [0 .. 9]] `shouldBe` replicate 10 False
