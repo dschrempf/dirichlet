@@ -9,7 +9,7 @@ license:             BSD-3-Clause
 license-file:        LICENSE
 author:              Dominik Schrempf
 maintainer:          dominik.schrempf@gmail.com
-copyright:           Dominik Schrempf 2021
+copyright:           2021 Dominik Schrempf
 category:            Math
 build-type:          Simple
 
