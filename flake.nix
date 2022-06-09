@@ -14,7 +14,7 @@
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        hpkgs = pkgs.haskell.packages.ghc922;
+        hpkgs = pkgs.haskell.packages.ghc923;
         dirichlet = hpkgs.callCabal2nix "dirichlet" self rec { };
         dirichlet-dev = pkgs.haskell.lib.doBenchmark dirichlet;
       in
