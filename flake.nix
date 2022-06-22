@@ -19,11 +19,9 @@
         dirichlet-dev = pkgs.haskell.lib.doBenchmark dirichlet;
       in
       {
-        packages.circular = dirichlet;
+        packages.default = dirichlet;
 
-        defaultPackage = dirichlet;
-
-        devShell = hpkgs.shellFor {
+        devShells.default = hpkgs.shellFor {
           packages = _: [ dirichlet-dev ];
           buildInputs = with pkgs; [
             bashInteractive
