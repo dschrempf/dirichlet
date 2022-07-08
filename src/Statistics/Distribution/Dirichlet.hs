@@ -24,12 +24,11 @@ module Statistics.Distribution.Dirichlet
   )
 where
 
-import Control.Monad.Primitive
 import qualified Data.Vector.Unboxed as V
 import Numeric.Log
 import Numeric.SpecFunctions
-import System.Random.MWC
 import System.Random.MWC.Distributions
+import System.Random.Stateful
 
 -- | The [Dirichlet distribution](https://en.wikipedia.org/wiki/Dirichlet_distribution).
 data DirichletDistribution = DirichletDistribution
@@ -94,7 +93,7 @@ dirichletDensity (DirichletDistribution as k c) xs
     logXsPow = V.sum $ V.zipWith (\a x -> log $ x ** (a - 1.0)) as xs
 
 -- | Sample a value vector from the Dirichlet distribution.
-dirichletSample :: PrimMonad m => DirichletDistribution -> Gen (PrimState m) -> m (V.Vector Double)
+dirichletSample :: StatefulGen g m => DirichletDistribution -> g -> m (V.Vector Double)
 dirichletSample (DirichletDistribution as _ _) g = do
   ys <- V.mapM (\a -> gamma a 1.0 g) as
   let s = V.sum ys
@@ -151,9 +150,9 @@ dirichletDensitySymmetric (DirichletDistributionSymmetric a k c) xs
 
 -- | Sample a value vector from the symmetric Dirichlet distribution.
 dirichletSampleSymmetric ::
-  PrimMonad m =>
+  StatefulGen g m =>
   DirichletDistributionSymmetric ->
-  Gen (PrimState m) ->
+  g ->
   m (V.Vector Double)
 dirichletSampleSymmetric (DirichletDistributionSymmetric a k _) g = do
   ys <- V.replicateM k (gamma a 1.0 g)

@@ -19,7 +19,7 @@ import Data.Either
 import qualified Data.Vector.Unboxed as V
 import Numeric.Log hiding (sum)
 import Statistics.Distribution.Dirichlet
-import System.Random.MWC
+import System.Random.Stateful
 import Test.Hspec
 
 eps :: Double
@@ -68,7 +68,7 @@ spec = do
       rWrongDim `shouldBe` 0
   describe "dirichletSample" $ do
     it "returns valid value vectors with expected mean" $ do
-      g <- create
+      g <- newIOGenM $ mkStdGen 0
       let ddSym10 = ddSym 10 10
       xs <- replicateM 1000 (dirichletSample ddSym10 g)
       map V.length xs `shouldBe` replicate 1000 10
