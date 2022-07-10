@@ -5,6 +5,12 @@
 ## Unreleased changes
 
 
+## 0.1.0.7
+
+-   Random 1.2 (random sampling function has more general type).
+-   GHC 9.2.3.
+
+
 ## 0.1.0.6
 
 -   Tooling.
