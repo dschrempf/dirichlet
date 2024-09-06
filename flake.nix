@@ -6,25 +6,26 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs =
-    { self
-    , flake-utils
-    , nixpkgs
+    {
+      self,
+      flake-utils,
+      nixpkgs,
     }:
     let
-      theseHpkgNames = [
-        "dirichlet"
-      ];
+      theseHpkgNames = [ "dirichlet" ];
       thisGhcVersion = "ghc96";
       hOverlay = selfn: supern: {
         haskell = supern.haskell // {
-          packageOverrides = selfh: superh:
-            supern.haskell.packageOverrides selfh superh //
-              {
-                dirichlet = selfh.callCabal2nix "dirichlet" ./. { };
-              };
+          packageOverrides =
+            selfh: superh:
+            supern.haskell.packageOverrides selfh superh
+            // {
+              dirichlet = selfh.callCabal2nix "dirichlet" ./. { };
+            };
         };
       };
-      perSystem = system:
+      perSystem =
+        system:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -36,18 +37,19 @@
           theseHpkgsDev = builtins.mapAttrs (_: x: hlib.doBenchmark x) theseHpkgs;
         in
         {
-          packages = theseHpkgs // { default = theseHpkgs.dirichlet; };
+          packages = theseHpkgs // {
+            default = theseHpkgs.dirichlet;
+          };
 
           devShells.default = hpkgs.shellFor {
             packages = _: (builtins.attrValues theseHpkgsDev);
-            nativeBuildInputs = with pkgs; [
+            nativeBuildInputs = [
               # Haskell toolchain.
               hpkgs.cabal-fmt
               hpkgs.cabal-install
               hpkgs.haskell-language-server
             ];
-            buildInputs = with pkgs; [
-            ];
+            buildInputs = [ ];
             doBenchmark = true;
             # withHoogle = true;
           };
