@@ -1,5 +1,6 @@
 * Revision history for dirichlet
 ** Unreleased changes
+- GHC 9.8
 
 ** 0.1.0.7
 - Random 1.2 (random sampling function has more general type).
